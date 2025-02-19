@@ -1,6 +1,9 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+)
 
 type User struct {
 	Name  string `json:"name"`
@@ -11,6 +14,11 @@ type Users []User
 
 func main() {
 	r := gin.Default()
+
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true
+
+	r.Use(cors.New(config))
 
 	r.GET("/users", func(ctx *gin.Context) {
 		ctx.JSON(200, Users{
